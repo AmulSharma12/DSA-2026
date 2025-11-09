@@ -1,4 +1,4 @@
-import java.util.*;
+package S002_Recursion;
 
 public class P001_Basic_PrintNameNTimes {
      public static void main(String[] args){
