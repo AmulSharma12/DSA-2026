@@ -3,6 +3,9 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class P025_LC131_PalindromePartition {
+    public static void main(String[] args){
+        //call from here...
+    }
     public static List<List<String>> partition(String s) {
         List<List<String>> result = new ArrayList<>();
         palindromePartition(0, new ArrayList<>(), result, s, s.length());
