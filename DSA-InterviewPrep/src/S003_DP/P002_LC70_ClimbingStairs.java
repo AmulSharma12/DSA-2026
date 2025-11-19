@@ -34,7 +34,7 @@ public class P002_LC70_ClimbingStairs {
         return dp[n] = oneStep + twoStep;
     }
 
-
+    //Tabulation way
     public static int climbStairsT(int n) {
         if(n == 1) return 1;
         int[] dp = new int[n+1];
@@ -44,5 +44,18 @@ public class P002_LC70_ClimbingStairs {
         }
 
         return dp[n];
+    }
+
+    //Space optimisation way
+    public static int climbStairsSO(int n) {
+        if(n == 1) return 1;
+        int prev2=1, prev = 1;
+        for(int i = 2; i<=n; i++){
+            int curr = prev2 + prev;
+            prev2 = prev;
+            prev = curr;
+        }
+
+        return prev;
     }
 }
