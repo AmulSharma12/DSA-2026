@@ -34,4 +34,22 @@ public class P006_LC3693_ClimbingStairs2 {
 
         return dp[n] = Math.min(oneStepJumpCost, Math.min(twoStepJumpCost, threeStepJumpCost));
     }
+
+
+    //Tabulation solution
+    public static int climbStairsTabulation(int n, int[] costs) {
+        int[] dp = new int[n+1];
+        dp[0] = 0;
+        int minCost = Integer.MAX_VALUE;
+        for(int index = 1; index<=n; index++){
+            int oneStepCost = Integer.MAX_VALUE,twoStepCost = Integer.MAX_VALUE, threeStepCost = Integer.MAX_VALUE;
+            if(index-1 >= 0) oneStepCost = 1 + costs[index-1] + dp[index-1];
+            if(index-2 >= 0) twoStepCost = 4 + costs[index-1] + dp[index-2];
+            if(index-3 >= 0) threeStepCost = 9 + costs[index-1] + dp[index-3];
+            dp[index] = Math.min(oneStepCost, Math.min(twoStepCost, threeStepCost));
+        }
+
+        return dp[n];
+
+    }
 }
