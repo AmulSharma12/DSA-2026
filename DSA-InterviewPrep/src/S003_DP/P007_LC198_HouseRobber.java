@@ -39,4 +39,25 @@ public class P007_LC198_HouseRobber {
         return dp[position] = Math.max(moneyPicked, moneyNotPicked);
     }
 
+    //Tabulation solution
+    public static int robT(int[] nums) {
+        int n = nums.length;
+        return maxRobbingT(nums,nums.length);
+    }
+
+    private static int maxRobbingT(int[] moneyStreet,int n){
+        if(n == 1) return moneyStreet[n-1];
+        int[] dp = new int[n];
+        dp[0] = moneyStreet[0];
+        dp[1] = Math.max(moneyStreet[0], moneyStreet[1]);
+
+        for(int position =2; position <n; position++){
+            int moneyPicked = moneyStreet[position] + dp[position-2];
+            int moneyNotPicked = 0 + dp[position-1];
+            dp[position] = Math.max(moneyPicked, moneyNotPicked);
+        }
+
+        return dp[n-1];
+    }
+
 }
