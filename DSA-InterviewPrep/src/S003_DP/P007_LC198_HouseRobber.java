@@ -60,4 +60,26 @@ public class P007_LC198_HouseRobber {
         return dp[n-1];
     }
 
+    //Space Optimization solution
+    public static int robSO(int[] nums) {
+        int n = nums.length;
+        return maxRobbingSO(nums,nums.length);
+    }
+
+    private static int maxRobbingSO(int[] moneyStreet,int n){
+        if(n == 1) return moneyStreet[n-1];
+        int prev2 = moneyStreet[0];
+        int prev = Math.max(moneyStreet[0], moneyStreet[1]);
+
+        for(int position =2; position <n; position++){
+            int moneyPicked = moneyStreet[position] + prev2;
+            int moneyNotPicked = 0 + prev;
+            int curr = Math.max(moneyPicked, moneyNotPicked);
+            prev2 = prev;
+            prev = curr;
+        }
+
+        return prev;
+    }
+
 }
