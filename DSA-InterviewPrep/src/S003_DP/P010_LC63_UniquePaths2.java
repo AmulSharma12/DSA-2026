@@ -53,4 +53,29 @@ public class P010_LC63_UniquePaths2 {
         //sum up all
         return dp[row][col] = up + left;
     }
+
+
+    public static int uniquePathsWithObstaclesT(int[][] obstacleGrid) {
+        int m = obstacleGrid.length;
+        int n = obstacleGrid[0].length;
+        if(obstacleGrid[0][0] == 1) return 0;
+        int[][] dp = new int[m][n];
+        dp[0][0] = 1;
+
+        for(int row = 0; row < m; row++){
+            for(int col = 0; col < n; col++){
+                if(obstacleGrid[row][col] == 1)  {
+                    dp[row][col] = 0;
+                    continue;
+                }else{
+                    int upPath = row > 0 ? dp[row-1][col]: 0;
+                    int leftPath = col > 0 ? dp[row][col-1]: 0;
+                    dp[row][col] += upPath + leftPath;
+                }
+
+            }
+        }
+
+        return dp[m-1][n-1];
+    }
 }
