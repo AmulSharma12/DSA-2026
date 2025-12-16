@@ -84,5 +84,33 @@ public class PC011_LC64_MinPathSum {
 
         return dp[m-1][n-1];
     }
+    
+    //Space Optimizatiton solution
+    private int minPathSumSO(int[][] grid){
+        int m = grid.length;
+        int n = grid[0].length;
+        int[] prev = new int[n];
+
+        for(int row = 0; row < m; row++){
+            int[] curr = new int[n];
+            for(int col = 0; col < n; col++){
+                if(row == 0 && col == 0){
+                    curr[0] = grid[0][0];
+                }
+                else {
+                    curr[col] =
+                            grid[row][col] +
+                                    Math.min(
+                                            row > 0? prev[col]: Integer.MAX_VALUE,
+                                            col > 0? curr[col-1] : Integer.MAX_VALUE
+                                    );
+                }
+
+            }
+            prev = curr;
+        }
+
+        return prev[n-1];
+    }
 
 }
