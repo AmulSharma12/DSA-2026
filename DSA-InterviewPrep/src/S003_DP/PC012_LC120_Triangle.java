@@ -66,4 +66,30 @@ public class PC012_LC120_Triangle {
 
         return dp[0][0];
     }
+
+    //Space optimization solution
+    private static int minPathSumSO(List<List<Integer>> triangle){
+        int n = triangle.size();
+        //1. dp states
+        int[] frontRow = new int[n];
+
+        //base case creation (n-1) row
+        for(int col = 0; col <n; col++){
+            frontRow[col] = triangle.get(n-1).get(col);
+        }
+
+
+        //looping the remaing states row wise from n-2
+        for(int row = n-2; row >= 0 ;row--){
+            int[] currRow = new int[n];
+            for(int col = row; col >= 0 ; col--){
+                int downPathSum = triangle.get(row).get(col) + frontRow[col];
+                int diagonalPathSum = triangle.get(row).get(col) + frontRow[col+1];
+                currRow[col] = Math.min(downPathSum, diagonalPathSum);
+            }
+            frontRow = currRow;
+        }
+
+        return frontRow[0];
+    }
 }
