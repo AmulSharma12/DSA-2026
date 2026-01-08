@@ -53,4 +53,33 @@ public class PC014_SubsetSumWIthTargetSumExistGFG {
         dp[ind][target] = take || notTake ? 1 : 0;
         return  take || notTake;
     }
+
+
+    //Tabulation solution
+    static Boolean solveTabulation(int[] nums, int k){
+        int n = nums.length;
+        boolean[][] dp = new boolean[n][k+1];
+
+        //index mapped with target  (for any index target 0 it means there is no target to be looked)
+        for(int index = 0; index < n; index++)  dp[index][0] = true;
+        //for index 0 if the elment same as target then also its valid true case
+        if(nums[0] <= k) dp[0][nums[0]] = true;
+
+
+        //Looping DP states
+        for(int index = 1; index < n; index++){
+            for(int target = 1; target <= k; target++){
+                boolean notTake = dp[index-1][target];
+                boolean take = false;
+                if(nums[index] <= target)
+                    take = dp[index-1][target-nums[index]];
+                dp[index][target] = take | notTake;
+            }
+        }
+
+
+        //last cell last row with the target
+        return dp[n-1][k];
+
+    }
 }
