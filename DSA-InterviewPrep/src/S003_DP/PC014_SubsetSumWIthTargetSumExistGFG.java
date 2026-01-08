@@ -82,4 +82,32 @@ public class PC014_SubsetSumWIthTargetSumExistGFG {
         return dp[n-1][k];
 
     }
+
+    //Space Optimization solution
+    static Boolean spaceOptimization(int[] nums, int k){
+        int n = nums.length;
+
+        boolean[] prev = new boolean[k+1];
+        prev[0] = true;
+        if(nums[0] <= k) prev[nums[0]] = true;
+
+        //Looping DP states
+        for(int index = 1; index < n; index++){
+            boolean[] curr = new boolean[k+1];
+            curr[0] = true;
+            for(int target = 1; target <= k; target++){
+                boolean notTake = prev[target];
+                boolean take = false;
+                if(nums[index] <= target)
+                    take = prev[target-nums[index]];
+                curr[target] = take | notTake;
+            }
+
+            prev = curr;
+        }
+        
+        //last cell last row with the target
+        return prev[k];
+
+    }
 }
