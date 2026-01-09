@@ -89,4 +89,38 @@ public class PC015_PartitionEqualSubsetSum {
 
         return dp[n-1][k];
     }
+
+    //Space Optimization
+    public static  boolean canPartitionSO(int[] nums) {
+        int totalSum = 0;
+        int n = nums.length;
+        for(int element: nums)  totalSum += element;
+        if(totalSum %2 != 0)    return false;
+
+        return isTargetSubsetSumExistSO(nums, totalSum/2,n);
+    }
+
+
+    private static boolean isTargetSubsetSumExistSO(int[] nums, int k, int n){
+        boolean[] prev = new boolean[k+1];
+        prev[0] = true;
+
+        if(nums[0] <= k) prev[nums[0]] = true;
+
+        for(int index = 1; index < n; index++){
+            boolean[] curr = new boolean[k+1];
+            curr[0] = true;
+            for(int target = 1; target <= k; target++){
+                boolean notTake = prev[target];
+                boolean take = false;
+                if(nums[index] <= target)
+                    take = prev[target-nums[index]];
+                curr[target] = take || notTake;
+            }
+            prev = curr;
+        }
+
+
+        return prev[k];
+    }
 }
