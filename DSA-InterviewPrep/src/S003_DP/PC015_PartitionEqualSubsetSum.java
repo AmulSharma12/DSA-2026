@@ -59,4 +59,34 @@ public class PC015_PartitionEqualSubsetSum {
         dp[index][target] = (take||notTake) ? 1 : 0;
         return take || notTake;
     }
+
+    //Tabulation solution
+    public static boolean canPartitionT(int[] nums) {
+        int totalSum = 0;
+        int n = nums.length;
+        for(int element: nums)  totalSum += element;
+        if(totalSum %2 != 0)    return false;
+
+        return isTargetSubsetSumExistTabulation(nums, totalSum/2,n);
+    }
+
+
+    private static boolean isTargetSubsetSumExistTabulation(int[] nums, int k, int n){
+        boolean[][] dp = new boolean[n][k+1];
+
+        for(int index = 0; index<n; index++)    dp[index][0] = true;
+        if(nums[0] <= k) dp[0][nums[0]] = true;
+
+        for(int index = 1; index < n; index++){
+            for(int target = 1; target <= k; target++){
+                boolean notTake = dp[index-1][target];
+                boolean take = false;
+                if(nums[index] <= target)
+                    take = dp[index-1][target-nums[index]];
+                dp[index][target] = take || notTake;
+            }
+        }
+
+        return dp[n-1][k];
+    }
 }
