@@ -61,4 +61,29 @@ public class PC017_GFG_PerfectSumProblem {
 
         return dp[index][target] = take + notTake;
     }
+
+    //Memoization solution
+    private static int subsequenceWithTargetT(int[] nums, int n, int k){
+        int[][] dp = new int[n][k+1];
+
+        if(nums[0] <= k) dp[0][nums[0]] = 1;
+        dp[0][0] = nums[0] == 0 ? 2 : 1;
+        for(int index = 1; index < n; index++){
+            for(int target = 0; target <=k; target++){
+
+                int notTake = dp[index-1][target];
+                int take = 0;
+
+                if(nums[index] <= target)
+                    take = dp[index-1][target-nums[index]];
+
+                dp[index][target] = take + notTake;
+            }
+        }
+
+        return dp[n-1][k];
+    }
+
+
+    
 }
