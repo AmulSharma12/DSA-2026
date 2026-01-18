@@ -52,4 +52,28 @@ public class PC019_GFG_01Knapsack {
 
         return dp[index][W] = Math.max(take, notTake);
     }
+
+
+    //Tabulation solution
+    private int knapsackTabulation(int[] val,int[] wt, int W, int n){
+        int[][] dp = new int[n][W+1];
+
+        for(int weight = wt[0]; weight <= W; weight++) dp[0][weight] = val[0];
+
+        for(int index = 1; index < n; index++){
+            for(int weight = 1; weight <= W; weight++){
+
+                int notTake = dp[index-1][weight];
+                int take = Integer.MIN_VALUE;
+
+                if(wt[index] <= weight){
+                    take = val[index] + dp[index-1][weight - wt[index]];
+                }
+
+                dp[index][weight] = Math.max(take, notTake);
+            }
+        }
+
+        return dp[n-1][W];
+    }
 }
