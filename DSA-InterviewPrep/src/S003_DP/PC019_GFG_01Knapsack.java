@@ -76,4 +76,30 @@ public class PC019_GFG_01Knapsack {
 
         return dp[n-1][W];
     }
+
+
+    //Space Optimisation solution
+    private static int knapsackSO(int[] val,int[] wt, int W, int n){
+        int[] prev = new int[W+1];
+
+        for(int weight = wt[0]; weight <= W; weight++) prev[weight] = val[0];
+
+        for(int index = 1; index < n; index++){
+            int[] curr = new int[W+1];
+            for(int weight = 1; weight <= W; weight++){
+
+                int notTake = prev[weight];
+                int take = Integer.MIN_VALUE;
+
+                if(wt[index] <= weight){
+                    take = val[index] + prev[weight - wt[index]];
+                }
+
+                curr[weight] = Math.max(take, notTake);
+            }
+            prev = curr;
+        }
+
+        return prev[W];
+    }
 }
