@@ -34,6 +34,7 @@ public class PC018_GFG_PartitionWithGivenDifference {
         return take + notTake;
     }
 
+    //Memoization solution
     public int countPartitionsM(int[] arr, int diff) {
         int n = arr.length;
         int totalSum = 0;
@@ -66,4 +67,42 @@ public class PC018_GFG_PartitionWithGivenDifference {
 
         return dp[index][target] = take + notTake;
     }
+
+    //Tabulation solution
+    public int countPartitionsT(int[] arr, int diff) {
+        int n = arr.length;
+        int totalSum = 0;
+        for(int index = 0; index < n; index++) totalSum += arr[index];
+        if((totalSum - diff < 0) || (totalSum - diff) % 2 != 0) return 0;
+        int target = (totalSum-diff)/2;
+
+        return countPartitionTabulation(arr, target);
+
+    }
+
+
+    private int countPartitionTabulation(int[] nums, int k){
+        int n = nums.length;
+        int[][] dp = new int[n][k+1];
+
+        if(nums[0] <= k) dp[0][nums[0]] = 1;
+        if(nums[0] == 0) dp[0][0] = 2;
+        else dp[0][0] = 1;
+
+
+        for(int index = 1; index < n; index++){
+            for(int target = 0; target <= k ; target++){
+                int notTake = dp[index-1][target];
+
+                int take = 0;
+                if(nums[index] <= target)
+                    take = dp[index-1][target-nums[index]];
+
+                dp[index][target] = take + notTake;
+            }
+        }
+
+        return dp[n-1][k];
+    }
+
 }
