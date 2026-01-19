@@ -93,4 +93,34 @@ public class PC020_LC322_CoinChange {
         if(ans >= Integer.MAX_VALUE/2)  return -1;
         return ans;
     }
+
+    //Space optmization solution
+    private static int coinChangeSO(int[] coins, int amount, int n){
+        if(amount == 0) return 0;
+        int[] prev = new int[amount+1];
+
+        for(int T = 0; T <= amount; T++){
+            if(T% coins[0] == 0)    prev[T] = T / coins[0];
+            else prev[T] = Integer.MAX_VALUE /2;
+        }
+
+
+        for(int index = 1; index < n; index++){
+            int[] curr = new int[amount+1];
+            for(int T = 0; T<= amount ; T++){
+                int notTake = 0 + prev[T];
+                int take = Integer.MAX_VALUE;
+                if(coins[index] <= T)
+                    take = 1 + curr[T-coins[index]];
+
+                curr[T] = Math.min(take , notTake);
+            }
+            prev = curr;
+        }
+
+
+        int ans = prev[amount];
+        if(ans >= Integer.MAX_VALUE/2)  return -1;
+        return ans;
+    }
 }
