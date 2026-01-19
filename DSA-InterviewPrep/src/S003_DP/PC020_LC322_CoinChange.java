@@ -66,4 +66,31 @@ public class PC020_LC322_CoinChange {
 
         return dp[index][amount] =  Math.min(take ,notTake);
     }
+
+    //Tabulation solution
+    private static int coinChangeTab(int[] coins, int amount, int n){
+        int[][] dp = new int[n][amount+1];
+
+        for(int T = 0; T <= amount; T++){
+            if(T% coins[0] == 0)    dp[0][T] = T / coins[0];
+            else dp[0][T] = Integer.MAX_VALUE /2;
+        }
+
+
+        for(int index = 1; index < n; index++){
+            for(int T = 0; T<= amount ; T++){
+                int notTake = 0 + dp[index-1][T];
+                int take = Integer.MAX_VALUE;
+                if(coins[index] <= T)
+                    take = 1 + dp[index][T-coins[index]];
+
+                dp[index][T] = Math.min(take , notTake);
+            }
+        }
+
+
+        int ans = dp[n-1][amount];
+        if(ans >= Integer.MAX_VALUE/2)  return -1;
+        return ans;
+    }
 }
