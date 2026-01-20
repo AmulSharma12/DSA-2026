@@ -66,4 +66,31 @@ public class PC021_LC494_TargetSum {
 
         return dp[index][T] = take + notTake;
     }
+
+    //Tabulation solution
+    private static int targetSumT(int[] nums, int target){
+        int n = nums.length;
+        int totalSum = 0;
+        for(int element: nums)  totalSum += element;
+        if((totalSum - target) < 0 || (totalSum - target)%2 != 0)   return 0;
+        target = (totalSum - target)/2;
+        int[][] dp = new int[n][target+1];
+
+        if(nums[0] <= target)   dp[0][nums[0]] = 1;
+        if(nums[0] == 0)    dp[0][0] = 2;
+        else dp[0][0] = 1;
+
+        for(int index = 1; index < n; index++){
+            for(int T = 0; T<= target; T++){
+                int notTake = dp[index-1][T];
+                int take = 0;
+                if(nums[index] <= T)
+                    take = dp[index-1][T-nums[index]];
+
+                dp[index][T] = take + notTake;
+            }
+        }
+
+        return dp[n-1][target];
+    }
 }
