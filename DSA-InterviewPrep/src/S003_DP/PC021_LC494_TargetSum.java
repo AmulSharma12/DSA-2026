@@ -93,4 +93,33 @@ public class PC021_LC494_TargetSum {
 
         return dp[n-1][target];
     }
+
+    //Space optimization solution
+    private static int targetSumSO(int[] nums, int target){
+        int n = nums.length;
+        int totalSum = 0;
+        for(int element: nums)  totalSum += element;
+        if((totalSum - target) < 0 || (totalSum - target)%2 != 0)   return 0;
+        target = (totalSum - target)/2;
+        int[] prev = new int[target+1];
+
+        if(nums[0] <= target)   prev[nums[0]] = 1;
+        if(nums[0] == 0)    prev[0] = 2;
+        else prev[0] = 1;
+
+        for(int index = 1; index < n; index++){
+            int[] curr = new int[target+1];
+            for(int T = 0; T<= target; T++){
+                int notTake = prev[T];
+                int take = 0;
+                if(nums[index] <= T)
+                    take = prev[T-nums[index]];
+
+                curr[T] = take + notTake;
+            }
+            prev = curr;
+        }
+
+        return prev[target];
+    }
 }
