@@ -103,4 +103,29 @@ public class PC024_GFG_RodCutting {
         return prev[N];
 
     }
+
+    //single array optimization
+    private static int cutRodSAO(int[] price, int N){
+        int[] prev = new int[N+1];
+
+        for(int RL = 0; RL <= N; RL++){
+            prev[RL] = RL * price[0];
+        }
+
+        for(int index = 1; index < N; index++){
+
+            for(int RL = 0; RL <= N; RL++){
+                int excluded = prev[RL];
+                int included = Integer.MIN_VALUE;
+                int rodLength = index+1;
+                if(rodLength <= RL)
+                    included = price[index] + prev[RL-rodLength];
+                prev[RL] = Math.max(included, excluded);
+            }
+
+        }
+
+        return prev[N];
+
+    }
 }
