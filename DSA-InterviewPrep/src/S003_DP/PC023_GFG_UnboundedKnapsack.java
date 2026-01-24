@@ -59,7 +59,7 @@ public class PC023_GFG_UnboundedKnapsack {
     }
 
     //Tabulation solution
-    private int unboundedKnapSackT(int val[], int wt[], int maxWeight){
+    private static int unboundedKnapSackT(int val[], int wt[], int maxWeight){
         int n = val.length;
         int[][] dp = new int[n][maxWeight+1];
 
@@ -78,5 +78,30 @@ public class PC023_GFG_UnboundedKnapsack {
         }
 
         return dp[n-1][maxWeight];
+    }
+
+
+    //Space optimizaiton solution
+    private static int unboundedKnapSackSO(int val[], int wt[], int maxWeight){
+        int n = val.length;
+        int[] prev= new int[maxWeight+1];
+
+        for(int W = 0; W<= maxWeight; W++)
+            prev[W] = (W/wt[0]) * val[0];
+
+        for(int index = 1; index < n; index++){
+            int[] curr= new int[maxWeight+1];
+            for(int W = 0; W <= maxWeight; W++){
+                int excluded = prev[W];
+                int included = Integer.MIN_VALUE;
+                if(wt[index] <= W)
+                    included = val[index] + curr[W-wt[index]];
+
+                curr[W] = Math.max(included, excluded);
+            }
+            prev = curr;
+        }
+
+        return prev[maxWeight];
     }
 }
