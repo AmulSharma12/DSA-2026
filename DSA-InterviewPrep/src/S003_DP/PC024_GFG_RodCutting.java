@@ -1,4 +1,7 @@
 package S003_DP;
+
+import java.util.Arrays;
+
 //https://www.geeksforgeeks.org/problems/rod-cutting0840/1
 public class PC024_GFG_RodCutting {
     public static void main(String[] args){
@@ -24,5 +27,32 @@ public class PC024_GFG_RodCutting {
             included = price[index] + cutRodR(index, n- rodLength, price);
 
         return Math.max(included, excluded);
+    }
+
+    //Memoization solution
+    public static int cutRodM(int[] price) {
+        int N = price.length;
+        int[][] cache = new int[N][N+1];
+        for(int[] cacheRow:cache){
+            Arrays.fill(cacheRow,-1);
+        }
+        return cutRodM(N-1, N, price, cache);
+    }
+
+    private static int cutRodM(int index, int n, int[] price, int[][] cache){
+        if(index == 0){
+            return n * price[0];
+        }
+
+        int excluded = cutRodM(index-1, n, price, cache);
+        int included = Integer.MIN_VALUE;
+        int rodLength = index+1;
+
+        if(cache[index][n] != -1)    return cache[index][n];
+
+        if(rodLength <= n)
+            included = price[index] + cutRodM(index, n- rodLength, price, cache);
+
+        return cache[index][n] = Math.max(included, excluded);
     }
 }
