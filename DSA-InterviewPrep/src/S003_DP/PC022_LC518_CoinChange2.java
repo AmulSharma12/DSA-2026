@@ -1,5 +1,6 @@
 package S003_DP;
-
+import java.util.Arrays;
+//https://leetcode.com/problems/coin-change-ii/description/
 public class PC022_LC518_CoinChange2 {
     public static void main(String[] args){
         //call from here...
@@ -26,5 +27,31 @@ public class PC022_LC518_CoinChange2 {
             take = coinChangeR(index, target - coins[index], coins);
 
         return notTake + take;
+    }
+
+    //Memoization solution
+    public static int changeM(int amount, int[] coins) {
+        int n = coins.length;
+        int[][] dp = new int[n][amount+1];
+        for(int[] dpRow:dp)
+            Arrays.fill(dpRow,-1);
+        return coinChangeM(n-1, amount, coins, dp);
+    }
+
+    private static int coinChangeM(int index, int target, int[] coins, int[][] dp){
+        if(target == 0) return 1;
+        if(index == 0){
+            if(target % coins[0] == 0)  return 1;
+            return 0;
+        }
+
+        if(dp[index][target] != -1) return dp[index][target];
+
+        int notTake = coinChangeM(index-1, target, coins, dp);
+        int take = 0;
+        if(coins[index] <= target)
+            take = coinChangeM(index, target - coins[index], coins, dp);
+
+        return dp[index][target] = notTake + take;
     }
 }
