@@ -55,4 +55,27 @@ public class PC024_GFG_RodCutting {
 
         return cache[index][n] = Math.max(included, excluded);
     }
+
+    //Tabulation solution
+    private static int cutRodT(int[] price, int N){
+        int[][] cache = new int[N][N+1];
+
+        for(int RL = 0; RL <= N; RL++){
+            cache[0][RL] = RL * price[0];
+        }
+
+        for(int index = 1; index < N; index++){
+            for(int RL = 0; RL <= N; RL++){
+                int excluded = cache[index-1][RL];
+                int included = Integer.MIN_VALUE;
+                int rodLength = index+1;
+                if(rodLength <= RL)
+                    included = price[index] + cache[index][RL-rodLength];
+                cache[index][RL] = Math.max(included, excluded);
+            }
+        }
+
+        return cache[N-1][N];
+
+    }
 }
