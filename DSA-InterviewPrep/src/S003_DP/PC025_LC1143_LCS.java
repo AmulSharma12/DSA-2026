@@ -79,4 +79,30 @@ public class PC025_LC1143_LCS {
 
         return dp[n][m];
     }
+
+    //space optimization solution
+    private static int lcsSO(String text1, String text2){
+        //base case
+        int n = text1.length();
+        int m = text2.length();
+        int[] prev = new int[m+1];
+
+        //shifted to each at right because negative base cases so 0th index treated as -1 base case  thats why for state N index pick would be index-1
+
+        for(int j = 0; j<=m ; j++)   prev[j] = 0;
+
+        //match and not match cases
+        for(int ind1 = 1; ind1 <= n; ind1++){
+            int[] curr = new int[m+1];
+            for(int ind2 = 1; ind2 <= m; ind2++){
+                if(text1.charAt(ind1 - 1) == text2.charAt(ind2 - 1))
+                    curr[ind2] = 1 + prev[ind2-1];
+                else
+                    curr[ind2] = Math.max(prev[ind2], curr[ind2-1]);
+            }
+            prev = curr;
+        }
+
+        return prev[m];
+    }
 }
