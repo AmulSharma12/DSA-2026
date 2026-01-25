@@ -5,6 +5,27 @@ public class PC027_LC718_LongestCommonSubstring {
         //call from here...
     }
 
+    //Recusursive approach
+    public static int findLengthRec(int[] nums1, int[] nums2) {
+        int n = nums1.length;
+        int m = nums2.length;
+        return findLengthR(n-1, m-1,0, nums1, nums2);
+    }
+
+    private static int findLengthR(int ind1, int ind2, int len, int[] nums1, int[] nums2){
+        //base case
+        if(ind1 < 0 || ind2 < 0)    return len;
+
+        int matched = len;
+        if(nums1[ind1] == nums2[ind2])
+            matched = findLengthR(ind1-1, ind2-1, len+1, nums1, nums2);
+
+        int matchA = findLengthR(ind1-1, ind2, 0, nums1, nums2);
+        int matchB = findLengthR(ind1, ind2-1, 0, nums1, nums2);
+
+        return Math.max(matched , Math.max(matchA, matchB));
+    }
+
     //Tabulation approach
     public static int findLength(int[] nums1, int[] nums2) {
         int n = nums1.length;
