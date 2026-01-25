@@ -24,4 +24,21 @@ public class PC027_LC718_LongestCommonSubstring {
 
         return longestCommonSubstring;
     }
+
+
+    //space optimizattion approach
+    private static int findLengthSO(int N, int M, int[] nums1, int[] nums2){
+        int[] prev = new int[M+1];
+        int longestCommonSubstring = 0;
+        for(int ind1 = 1; ind1 <= N; ind1++){
+            int[] curr = new int[M+1];
+            for(int ind2 = 1; ind2 <= M; ind2++){
+                curr[ind2] = nums1[ind1-1] == nums2[ind2-1] ? 1 + prev[ind2-1] : 0;
+                longestCommonSubstring = Math.max(longestCommonSubstring, curr[ind2]);
+            }
+            prev = curr;
+        }
+
+        return longestCommonSubstring;
+    }
 }
