@@ -61,4 +61,29 @@ public class PC030_LC583_DeleteOperationTwoStrings {
                 minDistanceHelperM(ind1, ind2-1, s1, s2, cache),
                 minDistanceHelperM(ind1-1, ind2, s1, s2, cache));
     }
+
+    //Tabulation solution
+    private static int minDistanceT(String word1, String word2){
+        int n = word1.length();
+        int m = word2.length();
+        int[][] cache = new int[n+1][m+1];
+
+        for(int ind1 = 1; ind1 <= n; ind1++){
+            for(int ind2 = 1; ind2 <= m; ind2++){
+                if(word1.charAt(ind1-1) == word2.charAt(ind2-1))
+                    cache[ind1][ind2] = 1 + cache[ind1-1][ind2-1];
+                else
+                    cache[ind1][ind2] = Math.max(
+                            cache[ind1-1][ind2], cache[ind1][ind2-1]
+                    );
+            }
+        }
+
+        int lcs = cache[n][m];
+
+        //minDeletion step for both the string to make same
+        int minDeletionStepForS1 = n - lcs;
+        int minDeletionStepForS2 = m - lcs;
+        return minDeletionStepForS1 + minDeletionStepForS2;
+    }
 }
