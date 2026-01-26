@@ -1,4 +1,7 @@
 package S003_DP;
+
+import java.util.Arrays;
+
 //https://leetcode.com/problems/longest-palindromic-subsequence/description/
 public class PC028_LC516_LongestPalindromeSubsequence {
     public static void main(String[] args){
@@ -27,6 +30,33 @@ public class PC028_LC516_LongestPalindromeSubsequence {
         return Math.max(
                 lcsHelper(ind1, ind2-1, s1, s2),
                 lcsHelper(ind1-1, ind2, s1, s2)
+        );
+    }
+
+
+    //Memoization solution
+    private static int lcsMemoize(String s1, String s2){
+        int n = s1.length();
+        int m = s2.length();
+        int[][] cache = new int[n][m];
+        for(int[] cacheRow: cache){
+            Arrays.fill(cacheRow,-1);
+        }
+        return lcsHelperM(n-1, m-1, s1, s2, cache);
+    }
+
+    private static int lcsHelperM(int ind1, int ind2, String s1, String s2, int[][] cache){
+        //base case
+        if(ind1 < 0 || ind2 < 0)    return 0;
+
+        if(cache[ind1][ind2] != -1)     return cache[ind1][ind2];
+
+        if(s1.charAt(ind1) == s2.charAt(ind2))
+            return 1 + lcsHelperM(ind1-1, ind2-1, s1, s2, cache);
+
+        return cache[ind1][ind2] = Math.max(
+                lcsHelperM(ind1, ind2-1, s1, s2, cache),
+                lcsHelperM(ind1-1, ind2, s1, s2, cache)
         );
     }
 
