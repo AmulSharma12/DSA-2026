@@ -57,4 +57,23 @@ public class PC029_LC1312_MinInsertionStepToMakePalindrome {
                 lcsM(index1, index2-1, s1, s2,cache), lcsM(index1-1, index2, s1, s2,cache)
         );
     }
+
+    //Tabulation solution
+    private static int minInsertionsTabulation(String s1, String s2){
+        int n = s1.length();
+        int m = s2.length();
+        int[][] cache = new int[n+1][m+1];
+
+        for(int ind1 = 1; ind1 <=n; ind1++){
+            for(int ind2 = 1; ind2 <= m ;ind2 ++){
+                if(s1.charAt(ind1-1) == s2.charAt(ind2-1))
+                    cache[ind1][ind2] = 1 + cache[ind1-1][ind2-1];
+                else
+                    cache[ind1][ind2] = Math.max(cache[ind1][ind2-1], cache[ind1-1][ind2]);
+            }
+        }
+
+        int lps = cache[n][m];
+        return n - lps;
+    }
 }
