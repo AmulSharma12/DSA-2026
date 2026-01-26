@@ -1,6 +1,6 @@
 package S003_DP;
 //https://leetcode.com/problems/minimum-insertion-steps-to-make-a-string-palindrome/
-public class PC019_LC1312_MinInsertionStepToMakePalindrome {
+public class PC029_LC1312_MinInsertionStepToMakePalindrome {
     public static void main(String[] args){
         //call from here..
     }
