@@ -86,4 +86,32 @@ public class PC030_LC583_DeleteOperationTwoStrings {
         int minDeletionStepForS2 = m - lcs;
         return minDeletionStepForS1 + minDeletionStepForS2;
     }
+
+
+    //Space optimization solution
+    private static int minDistanceSO(String word1, String word2){
+        int n = word1.length();
+        int m = word2.length();
+        int[] prevState = new int[m+1];
+
+        for(int ind1 = 1; ind1 <= n; ind1++){
+            int[] currState = new int[m+1];
+            for(int ind2 = 1; ind2 <= m; ind2++){
+                if(word1.charAt(ind1-1) == word2.charAt(ind2-1))
+                    currState[ind2] = 1 + prevState[ind2-1];
+                else
+                    currState[ind2] = Math.max(
+                            prevState[ind2], currState[ind2-1]
+                    );
+            }
+            prevState = currState;
+        }
+
+        int lcs = prevState[m];
+
+        //minDeletion step for both the string to make same
+        int minDeletionStepForS1 = n - lcs;
+        int minDeletionStepForS2 = m - lcs;
+        return minDeletionStepForS1 + minDeletionStepForS2;
+    }
 }
