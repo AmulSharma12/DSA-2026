@@ -1,4 +1,7 @@
 package S003_DP;
+
+import java.util.Arrays;
+
 //https://leetcode.com/problems/distinct-subsequences/description/
 public class PC032_LC115_DistinctSubsequences {
     public static void main(String[] args){
@@ -20,5 +23,27 @@ public class PC032_LC115_DistinctSubsequences {
             return numDistinctR(ind1-1, ind2-1, s, t) + numDistinctR(ind1-1, ind2, s, t);
 
         return numDistinctR(ind1-1, ind2, s, t);
+    }
+
+
+    public int numDistinctM(String s, String t) {
+        int n = s.length();
+        int m = t.length();
+        int[][] dp = new int[n][m];
+        for(int[] dpRow: dp){
+            Arrays.fill(dpRow,-1);
+        }
+        return numDistinctM(n-1, m-1, s, t, dp);
+    }
+
+    private int numDistinctM(int ind1, int ind2, String s, String t,int[][] dp){
+        if(ind2 < 0)    return 1;
+        if(ind1 < 0)    return 0;
+        if(dp[ind1][ind2] != -1)    return dp[ind1][ind2];
+
+        if(s.charAt(ind1) == t.charAt(ind2))
+            return dp[ind1][ind2] = numDistinctM(ind1-1, ind2-1, s, t, dp) + numDistinctM(ind1-1, ind2, s, t, dp);
+
+        return dp[ind1][ind2] = numDistinctM(ind1-1, ind2, s, t, dp);
     }
 }
