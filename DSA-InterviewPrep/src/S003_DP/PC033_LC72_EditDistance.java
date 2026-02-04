@@ -1,4 +1,7 @@
 package S003_DP;
+
+import java.util.Arrays;
+
 //https://leetcode.com/problems/edit-distance/
 public class PC033_LC72_EditDistance {
     public static void main(String[] args){
@@ -23,4 +26,29 @@ public class PC033_LC72_EditDistance {
                 editDistanceR(i,j-1,s1,s2),
                 Math.min(editDistanceR(i-1, j, s1, s2), editDistanceR(i-1, j-1, s1, s2))
         );
-}}
+}
+
+    public static int minDistanceM(String word1, String word2) {
+        int n = word1.length();
+        int m = word2.length();
+        int[][] cache = new int[n][m];
+        for(int [] cacheRow: cache){
+            Arrays.fill(cacheRow, -1);
+        }
+        return editDistanceM(n-1, m-1, word1, word2, cache);
+    }
+
+    private static int editDistanceM(int i, int j, String s1, String s2, int[][] cache){
+        if(i < 0)   return j + 1;
+        if(j < 0)   return i + 1;
+        if(cache[i][j] != -1) return cache[i][j];
+
+        if(s1.charAt(i) == s2.charAt(j))
+            return cache[i][j] = editDistanceM(i-1, j-1, s1, s2, cache);
+
+        return cache[i][j] = 1 + Math.min(
+                editDistanceM(i,j-1,s1,s2, cache),
+                Math.min(editDistanceM(i-1, j, s1, s2, cache), editDistanceM(i-1, j-1, s1, s2, cache))
+        );
+    }
+}
