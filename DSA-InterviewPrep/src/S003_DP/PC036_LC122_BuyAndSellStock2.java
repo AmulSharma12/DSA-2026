@@ -126,4 +126,30 @@ public class PC036_LC122_BuyAndSellStock2 {
 
         return ahead[1];
     }
+
+    //Using variables approach
+    private static int maxProfitUsingVariables(int[] prices){
+        int n = prices.length;
+        int aheadNotBuy=0, aheadBuy=0,currNotBuy, currBuy;
+
+        for(int ind = n-1 ; ind >= 0 ; ind--){
+
+
+            currBuy = Math.max(
+                    -prices[ind] + aheadNotBuy,
+                    aheadBuy
+            );
+
+            currNotBuy = Math.max(
+                    prices[ind] + aheadBuy,
+                    aheadNotBuy
+            );
+
+            aheadNotBuy = currNotBuy;
+            aheadBuy = currBuy;
+
+        }
+
+        return aheadBuy;
+    }
 }
