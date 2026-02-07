@@ -83,4 +83,34 @@ public class PC037_LC123BuyAndSellStock3 {
 
         return dp[0][1][2];
     }
+
+
+    //Space optimization solution
+    private static int maxProfitSO(int[] prices, int size){
+        int[][] ahead = new int[2][3];
+
+
+        for(int ind = size-1; ind >= 0 ; ind--){
+            int[][] curr = new int[2][3];
+            for(int buy = 0; buy <= 1; buy++){
+                for(int limit = 1; limit <= 2; limit++){
+                    if(buy == 1){
+                        curr[buy][limit] =  Math.max(
+                                -prices[ind] + ahead[0][limit],
+                                ahead[1][limit]
+                        );
+                    }else{
+                        curr[buy][limit] = Math.max(
+                                prices[ind] + ahead[1][limit-1],
+                                ahead[0][limit]
+                        );
+                    }
+                }
+            }
+
+            ahead = curr;
+        }
+
+        return ahead[1][2];
+    }
 }
