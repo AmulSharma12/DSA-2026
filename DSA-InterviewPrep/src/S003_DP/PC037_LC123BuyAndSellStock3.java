@@ -56,4 +56,31 @@ public class PC037_LC123BuyAndSellStock3 {
                 maxProfitM(ind+1, 0, limit, prices, dp)
         );
     }
+
+
+    //Tabulation solution
+    private static int maxProfitT(int[] prices, int size){
+        int[][][] dp = new int[size+1][2][3];
+
+
+        for(int ind = size-1; ind >= 0 ; ind--){
+            for(int buy = 0; buy <= 1; buy++){
+                for(int limit = 1; limit <= 2; limit++){
+                    if(buy == 1){
+                        dp[ind][buy][limit] =  Math.max(
+                                -prices[ind] + dp[ind+1][0][limit],
+                                dp[ind+1][1][limit]
+                        );
+                    }else{
+                        dp[ind][buy][limit] = Math.max(
+                                prices[ind] + dp[ind+1][1][limit-1],
+                                dp[ind+1][0][limit]
+                        );
+                    }
+                }
+            }
+        }
+
+        return dp[0][1][2];
+    }
 }
