@@ -76,4 +76,44 @@ public class PC034_LC44_WildCardMatching {
         cache[i][j] = 0;
         return false;
     }
+
+
+    //Tabulation solution
+    private static boolean isMatchT(int n, int m, String s, String p){
+        boolean[][] dp = new boolean[n+1][m+1];
+        dp[0][0] = true;
+
+        for(int i = 1; i<=n; i++){
+            dp[i][0] = false;
+        }
+
+        for(int j = 1; j<=m; j++){
+            boolean flag = true;
+            for(int ind = 1; ind <= j; ind++){
+                if(p.charAt(ind-1) != '*'){
+                    flag = false;
+                    break;
+                }
+            }
+
+            dp[0][j] = flag;
+        }
+
+        //exploring the states
+        for(int i = 1; i<=n; i++){
+            for(int j = 1; j<=m; j++){
+                if(s.charAt(i-1) == p.charAt(j-1) || p.charAt(j-1) == '?')
+                    dp[i][j] = dp[i-1][j-1];
+                else if(p.charAt(j-1) == '*')
+                    dp[i][j] = dp[i][j-1] | dp[i-1][j];
+                    // case 1 - if * treat as the empty string  so will look in the remaing pattern
+                    //   s ->  abc    p -> x*  then then abc will be compared with x
+                    // case 2 - if * treat as one matching string
+                else
+                    dp[i][j] = false;
+            }
+        }
+
+        return dp[n][m];
+    }
 }
