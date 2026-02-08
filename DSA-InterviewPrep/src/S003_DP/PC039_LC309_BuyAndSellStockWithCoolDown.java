@@ -1,4 +1,5 @@
 package S003_DP;
+import java.util.Arrays;
 //https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/description/
 public class PC039_LC309_BuyAndSellStockWithCoolDown {
     public static void main(String[] args){
@@ -26,6 +27,38 @@ public class PC039_LC309_BuyAndSellStockWithCoolDown {
         return Math.max(
                 prices[day] + maxProfitR(day+2, 1, prices),
                 maxProfitR(day+1, 0, prices)
+        );
+    }
+
+
+    //Memoization solution
+    public static int maxProfit(int[] prices) {
+        int n = prices.length;
+        int[][] dp = new int[n][2];
+        for(int[] dpRow: dp){
+            Arrays.fill(dpRow,-1);
+        }
+        return maxProfitM(0, 1, prices, dp);
+    }
+
+    private static int maxProfitM(int day, int buy, int[] prices, int[][] dp){
+        //base case
+        if(day >= prices.length) return 0;
+
+        if(dp[day][buy] != -1)  return dp[day][buy];
+
+        //recursive call
+        if(buy == 1){
+            return dp[day][buy] = Math.max(
+                    -prices[day] + maxProfitM(day+1, 0, prices,dp),
+                    maxProfitM(day+1, 1, prices, dp)
+            );
+        }
+
+
+        return dp[day][buy] =  Math.max(
+                prices[day] + maxProfitM(day+2, 1, prices, dp),
+                maxProfitM(day+1, 0, prices, dp)
         );
     }
 }
