@@ -85,4 +85,33 @@ public class PC039_LC309_BuyAndSellStockWithCoolDown {
 
         return dp[0][1];
     }
+
+    //Space optimization solution
+    private  static int maxProfitSO(int[] prices, int n){
+        int[] front2 = new int[2];
+        int[] front1 = new int[2];
+
+        for(int day = n-1; day>=0; day--){
+            int[] curr = new int[2];
+            for(int buy = 0; buy<=1; buy++){
+                if(buy == 1){
+                    curr[buy] = Math.max(
+                            -prices[day] + front1[0],
+                            front1[1]
+                    );
+                }else{
+                    curr[buy] = Math.max(
+                            prices[day] + front2[1],
+                            front1[0]
+                    );
+                }
+
+
+            }
+            front2 = front1;
+            front1 = curr;
+        }
+
+        return front1[1];
+    }
 }
