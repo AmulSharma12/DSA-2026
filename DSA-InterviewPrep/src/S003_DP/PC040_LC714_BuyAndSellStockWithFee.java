@@ -82,4 +82,31 @@ public class PC040_LC714_BuyAndSellStockWithFee {
 
         return dp[0][1];
     }
+
+    //Space optimization solution
+    private static int maxProfitSO(int[] prices, int n, int fee){
+        int[] ahead = new int[2];
+
+        for(int day = n-1; day>=0; day--){
+            int[] curr = new int[2];
+            for(int buy = 0; buy<=1 ; buy++){
+                if(buy == 1){
+                    curr[buy] = Math.max(
+                            -prices[day] + ahead[0],
+                            ahead[1]
+                    );
+                }else{
+                    curr[buy] = Math.max(
+                            prices[day] - fee + ahead[1],
+                            ahead[0]
+                    );
+                }
+            }
+
+            ahead = curr;
+        }
+
+
+        return ahead[1];
+    }
 }
