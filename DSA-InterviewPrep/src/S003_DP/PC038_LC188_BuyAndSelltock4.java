@@ -65,4 +65,34 @@ public class PC038_LC188_BuyAndSelltock4 {
                 maxProfitM(day+1, 0, transactionLimit, prices, dp)
         );
     }
+
+
+    //Tabulation solution
+    private int maxProfitT(int[] prices, int k){
+        int n = prices.length;
+        int[][][] dp = new int[n+1][2][k+1];
+
+
+        for(int day = n-1; day >= 0 ; day--){
+            for(int buy = 0; buy <= 1; buy++){
+                for(int limit = 1; limit <= k; limit++){
+                    int profit = 0;
+                    if(buy == 1){
+                        dp[day][buy][limit] = Math.max(
+                                -prices[day] + dp[day+1][0][limit],
+                                dp[day+1][1][limit]
+                        );
+                    }else{
+                        dp[day][buy][limit] = Math.max(
+                                prices[day] + dp[day+1][1][limit-1],
+                                dp[day+1][0][limit]
+                        );
+                    }
+                }
+            }
+        }
+
+
+        return dp[0][1][k];
+    }
 }
