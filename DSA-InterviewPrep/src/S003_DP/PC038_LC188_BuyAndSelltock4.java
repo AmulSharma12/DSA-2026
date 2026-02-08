@@ -68,7 +68,7 @@ public class PC038_LC188_BuyAndSelltock4 {
 
 
     //Tabulation solution
-    private int maxProfitT(int[] prices, int k){
+    private static int maxProfitT(int[] prices, int k){
         int n = prices.length;
         int[][][] dp = new int[n+1][2][k+1];
 
@@ -94,5 +94,38 @@ public class PC038_LC188_BuyAndSelltock4 {
 
 
         return dp[0][1][k];
+    }
+
+
+    //Space optimization solution
+    private static int maxProfitSO(int[] prices, int k){
+        int n = prices.length;
+        int[][] ahead = new int[2][k+1];
+
+
+        for(int day = n-1; day >= 0 ; day--){
+            int[][] curr = new int[2][k+1];
+            for(int buy = 0; buy <= 1; buy++){
+                for(int limit = 1; limit <= k; limit++){
+                    int profit = 0;
+                    if(buy == 1){
+                        curr[buy][limit] = Math.max(
+                                -prices[day] + ahead[0][limit],
+                                ahead[1][limit]
+                        );
+                    }else{
+                        curr[buy][limit] = Math.max(
+                                prices[day] + ahead[1][limit-1],
+                                ahead[0][limit]
+                        );
+                    }
+                }
+            }
+
+            ahead = curr;
+        }
+
+
+        return ahead[1][k];
     }
 }
