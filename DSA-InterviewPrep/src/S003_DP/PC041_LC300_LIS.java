@@ -1,5 +1,5 @@
 package S003_DP;
-
+import java.util.*;
 import java.util.Arrays;
 
 //https://leetcode.com/problems/longest-increasing-subsequence/
@@ -108,6 +108,43 @@ public class PC041_LC300_LIS {
 
             maxi = Math.max(maxi, dp[ind]);
         }
+
+        return maxi;
+    }
+
+    //printing LIS - using tabulation approach 2 hash array
+    private static int printLISLogic(int[] nums){
+        int n = nums.length;
+        int[] dp = new int[n];
+        int[] hash = new int[n];
+        int lastInd = 0;
+        Arrays.fill(dp,1);
+
+        //dp[i] - denotes the length of list till index i
+        int maxi = 1;
+        for(int ind = 0; ind < n; ind++){
+            hash[ind] = ind;    //initally the hash[ind] for each index is the previous element to itself
+            for(int prevInd = 0; prevInd < ind ; prevInd++){
+                if(nums[ind] > nums[prevInd] && 1+dp[prevInd] > dp[ind]){
+                    dp[ind] = Math.max(dp[ind], 1+dp[prevInd]);
+                    hash[ind] = prevInd;
+                }
+            }
+
+            if(dp[ind] > maxi){
+                maxi = dp[ind];
+                lastInd = ind;
+            }
+        }
+
+
+        List<Integer> ds = new ArrayList<>();
+        ds.add(nums[lastInd]);
+        while(hash[lastInd] != lastInd){
+            lastInd = hash[lastInd];
+            ds.add(nums[lastInd]);
+        }
+        System.out.println(ds.toString());
 
         return maxi;
     }
