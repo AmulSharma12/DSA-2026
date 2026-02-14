@@ -66,4 +66,27 @@ public class PC041_LC300_LIS {
 
         return dp[0][-1 +1];
     }
+
+
+    //Space optimization solution
+    private static int lisSpaceOptimizatoin(int[] nums){
+        int n = nums.length;
+        int[] ahead = new int[n+1];
+
+        for(int ind = n-1; ind>=0; ind--){
+            int[] curr = new int[n+1];
+            for(int prev_ind = ind-1; prev_ind >=-1; prev_ind--){
+                int notPicked = ahead[prev_ind+1];
+                int picked = 0;
+                if(prev_ind == -1 || nums[ind] > nums[prev_ind])
+                    picked = 1 + ahead[ind+1];
+
+                curr[prev_ind+1] = Math.max(picked, notPicked);
+            }
+            ahead = curr;
+        }
+
+
+        return ahead[-1 +1];
+    }
 }
