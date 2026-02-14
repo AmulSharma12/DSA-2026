@@ -47,4 +47,23 @@ public class PC041_LC300_LIS {
 
         return dp[ind][prev_ind+1] = Math.max(notPicked, picked);
     }
+
+    //Tabulation solution
+    private static int lisTabulation(int[] nums){
+        int n = nums.length;
+        int[][] dp = new int[n+1][n+1];
+
+        for(int ind = n-1; ind>=0; ind--){
+            for(int prev_ind = ind-1; prev_ind >=-1; prev_ind--){
+                int notPicked = dp[ind+1][prev_ind+1];
+                int picked = 0;
+                if(prev_ind == -1 || nums[ind] > nums[prev_ind])
+                    picked = 1 + dp[ind+1][ind+1];
+
+                dp[ind][prev_ind+1] = Math.max(picked, notPicked);
+            }
+        }
+
+        return dp[0][-1 +1];
+    }
 }
