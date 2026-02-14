@@ -89,4 +89,26 @@ public class PC041_LC300_LIS {
 
         return ahead[-1 +1];
     }
+
+
+    //tabulation approach useful for printing LIST
+    private static int lisTabulationApproach2(int[] nums){
+        int n = nums.length;
+        int[] dp = new int[n];
+        Arrays.fill(dp,1);
+
+        //dp[i] - denotes the length of list till index i
+        int maxi = 1;
+        for(int ind = 0; ind < n; ind++){
+            for(int prevInd = 0; prevInd < ind ; prevInd++){
+                if(nums[ind] > nums[prevInd]){
+                    dp[ind] = Math.max(dp[ind], 1+dp[prevInd]);
+                }
+            }
+
+            maxi = Math.max(maxi, dp[ind]);
+        }
+
+        return maxi;
+    }
 }
