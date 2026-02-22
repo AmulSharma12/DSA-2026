@@ -62,4 +62,34 @@ public class PC050_LC1547_MinCostToCutStick {
 
         return dp[i][j] = mini;
     }
+
+    //Tabulation solution
+    public static int minCostTabulation(int n, int[] cuts) {
+        int m = cuts.length;
+        int[] nums = new int[m+2];
+        nums[0] = 0;
+        nums[nums.length-1] = n;
+        for(int ind = 0; ind < m; ind++)    nums[ind+1] = cuts[ind];
+        Arrays.sort(nums);
+        return minCostTabulation(n, m, nums);
+    }
+
+    private static int minCostTabulation(int n, int c, int[] cuts){
+        int[][] dp = new int[c+2][c+2];
+
+        for(int i = c; i >= 1; i--){
+            for(int j = 1; j<=c; j++){
+                if(i > j)   continue;
+                int mini = Integer.MAX_VALUE;
+                for(int ind = i; ind <= j; ind++){
+                    int cost = cuts[j+1]-cuts[i-1] + dp[i][ind-1] + dp[ind+1][j];
+                    mini = Math.min(mini, cost);
+                }
+
+                dp[i][j] = mini;
+            }
+        }
+
+        return dp[1][c];
+    }
 }
