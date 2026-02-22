@@ -58,4 +58,35 @@ public class PC051_LC312_BurstBallons {
 
         return dp[i][j] =  maxi;
     }
+
+
+    //Tabulation solution
+    public static int maxCoins(int[] ballons) {
+        int n = ballons.length;
+        int[] nums = new int[n+2];
+        nums[0] = 1;
+        nums[n+1] = 1;
+        for(int ind = 0; ind < n; ind++)    nums[ind+1] = ballons[ind];
+        int[][] dp = new int[n+2][n+2];
+
+        return maxCoinsTabulation(nums, dp, n);
+    }
+
+    private static int maxCoinsTabulation(int[] nums, int[][] dp, int n){
+        for(int i = n; i>=1; i--){
+            for(int j = 1; j<=n; j++){
+                if(i > j)   continue;
+                int maxi = Integer.MIN_VALUE;
+                for(int burst = i; burst <= j; burst++){
+                    int coins = nums[burst] * nums[i-1] * nums[j+1]
+                            + dp[i][burst-1] + dp[burst+1][j];
+                    maxi = Math.max(maxi, coins);
+                }
+                dp[i][j] = maxi;
+            }
+        }
+
+        return dp[1][n];
+
+    }
 }
