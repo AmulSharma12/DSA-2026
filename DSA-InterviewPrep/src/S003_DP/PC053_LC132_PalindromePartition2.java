@@ -64,4 +64,29 @@ public class PC053_LC132_PalindromePartition2 {
 
         return dp[ind] = minCost;
     }
+
+    //Tabulation solution
+    public static int minCutTab(String s) {
+        return minCutTabulation(s, s.length());
+    }
+
+
+
+    private  static int minCutTabulation(String s, int n){
+        int[] dp = new int[n+1];
+
+        for(int ind = n-1; ind >= 0; ind--){
+            int minCost = Integer.MAX_VALUE;
+            for(int j = ind; j < n; j++){
+                if(isPalindrome(ind,j, s)){
+                    int cost = 1 + dp[j+1];
+                    minCost = Math.min(minCost, cost);
+                }
+            }
+
+            dp[ind] = minCost;
+        }
+
+        return dp[0] - 1;
+    }
 }
