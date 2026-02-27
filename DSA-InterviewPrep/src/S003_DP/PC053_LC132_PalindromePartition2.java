@@ -1,4 +1,7 @@
 package S003_DP;
+
+import java.util.Arrays;
+
 //https://leetcode.com/problems/palindrome-partitioning-ii/
 public class PC053_LC132_PalindromePartition2 {
     public static void main(String[] args){
@@ -34,5 +37,31 @@ public class PC053_LC132_PalindromePartition2 {
         }
 
         return minCost;
+    }
+
+    //Memoization solution
+    public static int minCutMem(String s) {
+        int n = s.length();
+        int[] dp = new int[n];
+        Arrays.fill(dp,-1);
+        return minCutMemoize(0, n, s, dp) - 1;
+    }
+
+
+    private static int minCutMemoize(int ind, int n, String s, int[] dp){
+        if(ind == n)    return 0;
+        if(dp[ind] != -1)   return dp[ind];
+
+
+        int minCost = Integer.MAX_VALUE;
+
+        for(int j = ind; j < n; j++){
+            if(isPalindrome(ind,j, s)){
+                int cost = 1 + minCutMemoize(j+1, n, s, dp);
+                minCost = Math.min(minCost, cost);
+            }
+        }
+
+        return dp[ind] = minCost;
     }
 }
