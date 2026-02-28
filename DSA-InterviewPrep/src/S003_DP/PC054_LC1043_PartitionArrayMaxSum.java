@@ -56,4 +56,28 @@ public class PC054_LC1043_PartitionArrayMaxSum {
 
         return dp[ind] = maxSum;
     }
+
+
+    //Tabulation solution
+    private static int maxSumTabulation(int[] nums, int k){
+        int n = nums.length;
+        int[] dp = new int[n+1];
+
+        for(int ind = n-1; ind >= 0 ; ind--){
+
+            int length = 0;
+            int maximum = Integer.MIN_VALUE;
+            int largestSum = Integer.MIN_VALUE;
+            for(int j = ind; j < Math.min(n, ind+k); j++){
+                length++;
+                maximum = Math.max(maximum, nums[j]);
+                int summation = (maximum * length) + dp[j+1];
+                largestSum = Math.max(largestSum, summation);
+            }
+
+            dp[ind] = largestSum;
+        }
+
+        return dp[0];
+    }
 }
