@@ -1,4 +1,5 @@
 package S003_DP;
+import java.util.Stack;
 //https://leetcode.com/problems/largest-rectangle-in-histogram/description/
 public class PC055_LC84_MaxAreaHistogram {
     public static void main(String[] args){
@@ -19,6 +20,40 @@ public class PC055_LC84_MaxAreaHistogram {
 
             int width = nsr - nsl - 1;
             int area = width * height;
+            maxArea = Math.max(maxArea, area);
+        }
+
+        return maxArea;
+    }
+
+
+    //Optimized Approach
+    public static int largestRectangleAreaOptimised(int[] heights) {
+        int n = heights.length;
+        int maxArea = Integer.MIN_VALUE;
+        Stack<Integer> st = new Stack<>();
+
+        for(int ind = 0; ind < n; ind++){
+            while(!st.isEmpty() && heights[st.peek()] >= heights[ind]){
+                int elementInd = st.peek();
+                st.pop();
+                int nse = ind;
+                int pse = st.isEmpty() ? -1 : st.peek();
+                int area = heights[elementInd] * (nse-pse-1);
+                maxArea = Math.max(area, maxArea);
+            }
+
+            st.push(ind);
+        }
+
+        //if there element remains in the stack
+        while(!st.isEmpty()){
+            int elementInd = st.peek();
+            st.pop();
+            int nse = n;
+            int pse = st.isEmpty() ? -1 : st.peek();
+
+            int area = heights[elementInd] * (nse - pse - 1);
             maxArea = Math.max(maxArea, area);
         }
 
