@@ -50,4 +50,30 @@ public class P003_LC1004_MaxConsecutiveOnesIII {
 
         return maxLength;
     }
+
+
+    //Approach 3 - Handling zero by sliding the window without using while when zero encountered it
+    //will reduce the zero count and once the zero count is in the range then the maxLength starts computing the way it is happening
+    private static int longestOnesOptimised2(int[] nums, int k) {
+        int n = nums.length;
+        int l = 0;
+        int r = 0;
+        int maxLength = 0;
+        int zero = 0;
+        while(r < n){
+            if(nums[r] == 0)    zero++;
+
+            if(zero > k){
+                if(nums[l] == 0) zero--;
+                l++;
+            }
+
+            if(zero <= k)
+                maxLength = Math.max(maxLength, r-l+1);
+
+            r++;
+        }
+
+        return maxLength;
+    }
 }
