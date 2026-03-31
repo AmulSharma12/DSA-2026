@@ -21,4 +21,20 @@ public class P006_LC1358_NumberOfSubstringsContainsAll3Character {
 
         return numberOfSubstrings;
     }
+
+
+    //Approach 2 - optimizattion
+    private static int numberOfSubstringsOptimized(String s) {
+        int[] lastseen = new int[3];
+        Arrays.fill(lastseen,-1);
+        int n = s.length();
+        int count = 0;
+        for(int ind = 0; ind <n; ind++){
+            lastseen[s.charAt(ind) - 'a'] = ind;
+            if(lastseen[0] != -1 && lastseen[1] !=-1 && lastseen[2] !=-1)
+                count += 1 + Math.min(lastseen[0], Math.min(lastseen[1], lastseen[2]));
+        }
+
+        return count;
+    }
 }
