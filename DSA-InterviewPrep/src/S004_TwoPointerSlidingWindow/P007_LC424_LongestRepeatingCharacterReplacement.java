@@ -26,4 +26,35 @@ public class P007_LC424_LongestRepeatingCharacterReplacement {
 
         return maxLength;
     }
+
+
+    //Approach 2 - using optimization two pointer and sliding window
+    private static int characterReplacementOptimized(String s, int k) {
+        int n = s.length();
+        int l = 0;
+        int r = 0;
+        int maxFreq = 0;
+        int maxLen = 0;
+        int[] hash = new int[26];
+
+        while(r < n){
+            hash[s.charAt(r) - 'A']++;
+            maxFreq = Math.max(maxFreq, hash[s.charAt(r)-'A']);
+            while((r-l+1) - maxFreq > k){
+                hash[s.charAt(l)-'A']--;
+                maxFreq = 0;
+                for(int ind = 0; ind < 26; ind++){
+                    maxFreq = Math.max(maxFreq, hash[ind]);
+                }
+                l++;
+            }
+
+            if((r-l+1)-maxFreq <= k)
+                maxLen = Math.max(maxLen, (r-l+1));
+
+            r++;
+        }
+
+        return maxLen;
+    }
 }
