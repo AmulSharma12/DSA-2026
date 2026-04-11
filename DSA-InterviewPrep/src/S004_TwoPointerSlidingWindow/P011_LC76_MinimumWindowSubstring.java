@@ -34,4 +34,41 @@ public class P011_LC76_MinimumWindowSubstring {
         //System.out.println(startInd + " " + minLength);
         return minLength == Integer.MAX_VALUE ? "" : s.substring(startInd, startInd + minLength);
     }
+
+    //Approach 2 - Optimisation using sliding window and two pointer
+    public static String minWindow(String s, String t) {
+        int n = s.length();
+        int m = t.length();
+        int l = 0;
+        int r = 0;
+        int cnt = 0;
+        int[] hash = new int[256];
+        int startInd = -1;
+        int minLength = Integer.MAX_VALUE;
+
+        for(int i = 0; i<m; i++){
+            hash[t.charAt(i)]++;
+        }
+
+        while(r < n){
+            if(hash[s.charAt(r)] > 0) cnt++;
+            hash[s.charAt(r)]--;
+
+            while(cnt == m){
+                if(r-l+1 < minLength){
+                    startInd = l;
+                    minLength = r-l+1;
+                }
+
+                hash[s.charAt(l)]++;
+                if(hash[s.charAt(l)] > 0)   cnt--;
+
+                l++;
+            }
+
+            r++;
+        }
+
+        return startInd == -1 ? "" : s.substring(startInd, startInd+minLength);
+    }
 }
