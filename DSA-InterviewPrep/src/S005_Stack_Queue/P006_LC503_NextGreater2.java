@@ -1,6 +1,7 @@
 package S005_Stack_Queue;
 
 import java.util.Arrays;
+import java.util.Stack;
 
 //https://leetcode.com/problems/next-greater-element-ii/description/
 public class P006_LC503_NextGreater2 {
@@ -29,6 +30,23 @@ public class P006_LC503_NextGreater2 {
                 }
 
             }
+        }
+
+        return nge;
+    }
+
+
+    //Approach 2 - using optimisation via monotnoic stack pattern
+    public static int[] nextGreaterElementsOptimization(int[] nums) {
+        int n = nums.length;
+        Stack<Integer> st = new Stack<>();
+        int[] nge = new int[n];
+        for(int ind = 2*n-1; ind >= 0; ind--){
+            while(!st.isEmpty() && st.peek() <= nums[ind%n]) st.pop();
+
+            if(ind < n) nge[ind] = st.isEmpty() ? -1 : st.peek();
+
+            st.push(nums[ind%n]);
         }
 
         return nge;
