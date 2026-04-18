@@ -1,6 +1,68 @@
 package S005_Stack_Queue;
 import java.util.Stack;
 
+//Approach 2 - using optimisation and mathematical logic
+//when you are about to update the minimum
+//on stack you will push 2*val - mini
+//and mini will be update to the value
+
+//on pop if its one with the updated mini having top elemnet as well
+//so pop the elmenet from stack also check if it is that updated mini of mathematical formul
+//then udpate mini as well with logic mini = 2* mini - st.peek() elmenet
+class MinStack {
+    public Stack<Long> st;
+    long mini;
+    public MinStack() {
+        st = new Stack<>();
+    }
+
+    public void push(int element) {
+        long val = element;
+        if(st.isEmpty()){
+            st.push(val);
+            mini = val;
+        }else{
+            if(mini > val){
+                st.push(2 * val - mini);
+                mini = val;
+            }else{
+                st.push(val);
+            }
+        }
+    }
+
+    public void pop() {
+        if (st.isEmpty()) return;
+
+        // Get the top
+        long x = st.pop();
+
+        // If the modified value was added to stack
+        if (x < mini) {
+            // Update the minimum
+            mini = 2 * mini - x;
+        }
+    }
+
+    public int top() {
+        // Base case
+        if (st.isEmpty()) return -1;
+
+        // Get the top
+        long x = st.peek();
+
+        // Return top if minimum is less than the top
+        if (mini < x) return (int)x;
+
+        // Otherwise return mini
+        return (int)mini;
+    }
+
+    public int getMin() {
+        return (int)mini;
+    }
+}
+
 //https://leetcode.com/problems/min-stack/description/
 public class P004_LC155_MinStack {
     public static void main(String[] args){
