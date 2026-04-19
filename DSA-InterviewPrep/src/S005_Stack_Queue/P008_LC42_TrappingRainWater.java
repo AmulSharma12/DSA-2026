@@ -30,4 +30,35 @@ public class P008_LC42_TrappingRainWater {
 
         return waterTrap;
     }
+
+    //Approach 2 - using two pointer tracking lmax and rmax and making sure
+    //if this covered by boundary - then water will be trapped
+    //if found anything bigger will update the boundary.
+    public static int trap(int[] nums) {
+        int n = nums.length;
+        int lmax = 0;
+        int rmax = 0;
+        int l = 0;
+        int r = n-1;
+        int waterTrap = 0;
+
+        while(l < r){
+            if(nums[l] <= nums[r]){
+                if(lmax > nums[l])
+                    waterTrap += lmax - nums[l];
+                else
+                    lmax = nums[l];
+                l++;
+            }else{
+                if(rmax > nums[r])
+                    waterTrap += rmax - nums[r];
+                else
+                    rmax = nums[r];
+                r--;
+            }
+        }
+
+
+        return waterTrap;
+    }
 }
