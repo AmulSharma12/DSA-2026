@@ -1,4 +1,5 @@
 package S005_Stack_Queue;
+import java.util.Stack;
 //https://leetcode.com/problems/sum-of-subarray-ranges/description/
 
 public class P010_LC2104_SumOfSubarrayRanges {
@@ -24,5 +25,95 @@ public class P010_LC2104_SumOfSubarrayRanges {
         }
 
         return sum;
+    }
+
+
+    //Approach 2 - using optimisation based on previous problems
+    //sum of subarray maximum - sum of subarray minimum
+    public long subArrayRangesOptimised(int[] nums) {
+        int n = nums.length;
+        long max = sumSubArrayMax(nums, n);
+        long min = sumSubArrayMin(nums, n);
+        System.out.println(max + " " + min);
+        return max - min;
+    }
+
+    private int[] PSE(int[] nums, int n){
+        Stack<Integer> st = new Stack<>();
+        int[] pse = new int[n];
+        for(int ind = 0; ind < n; ind++){
+            while(!st.isEmpty() && nums[st.peek()] > nums[ind]) st.pop();
+            pse[ind] = st.isEmpty() ? -1 : st.peek();
+            st.push(ind);
+        }
+
+        return pse;
+    }
+
+    private int[] NSE(int[] nums, int n){
+        Stack<Integer> st = new Stack<>();
+        int[] nse = new int[n];
+
+        for(int ind = n-1; ind >= 0; ind--){
+            while(!st.isEmpty() && nums[st.peek()] >= nums[ind]) st.pop();
+            nse[ind] = st.isEmpty() ? n : st.peek();
+            st.push(ind);
+        }
+
+        return nse;
+    }
+
+    private long sumSubArrayMin(int[] nums, int n){
+        int[] pse = PSE(nums, n);
+        int[] nse = NSE(nums, n);
+        long total = 0;
+
+        for(int ind = 0; ind < n; ind++){
+            int left = ind - pse[ind];
+            int right = nse[ind] - ind;
+            total = total + (long)left*right*nums[ind];
+        }
+
+        return total;
+    }
+
+    private int[] PGE(int[] nums, int n){
+        Stack<Integer> st = new Stack<>();
+        int[] nge = new int[n];
+
+        for(int ind = 0; ind <n; ind++){
+            while(!st.isEmpty() && nums[st.peek()] < nums[ind])  st.pop();
+            nge[ind] = st.isEmpty() ? -1 : st.peek();
+            st.push(ind);
+        }
+
+        return nge;
+    }
+
+    private int[] NGE(int[] nums, int n){
+        Stack<Integer> st = new Stack<>();
+        int[] nge = new int[n];
+
+        for(int ind = n-1; ind >= 0; ind--){
+            while(!st.isEmpty() && nums[st.peek()] <= nums[ind])     st.pop();
+            nge[ind] = st.isEmpty() ? n : st.peek();
+            st.push(ind);
+        }
+
+        return nge;
+    }
+
+    private long sumSubArrayMax(int[] nums, int n){
+        int[] pge = PGE(nums, n);
+        int[] nge = NGE(nums, n);
+        long total = 0;
+
+        for(int ind = 0; ind < n; ind++){
+            int left = ind - pge[ind];
+            int right = nge[ind] - ind;
+            total = total + (long)left*right*nums[ind];
+        }
+
+        return total;
     }
 }
