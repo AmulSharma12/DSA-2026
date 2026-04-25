@@ -45,4 +45,35 @@ public class P012_LC84_LargestRectangleInHistogram {
 
         return nse;
     }
+
+
+    //Approach 2 - using stack in single pass tracking pse and also when popping
+    //current element becomes nse of the element which is at st.peek()
+    private static int largestRectangleAreaOptimized(int[] heights) {
+        int n = heights.length;
+        int maxArea = 0;
+        Stack<Integer> st = new Stack<>();
+
+        for(int ind = 0; ind <n; ind++){
+            while(!st.isEmpty() && heights[st.peek()] > heights[ind]){
+                int element = st.peek();
+                st.pop();
+                int nse = ind;
+                int pse = st.isEmpty() ? -1 : st.peek();
+                maxArea = Math.max(maxArea, heights[element] * (nse - pse - 1));
+            }
+
+            st.push(ind);
+        }
+
+        //leftover element will hypothetical nse that would be size i.e. n
+        while(!st.isEmpty()){
+            int nse = n;
+            int element = st.peek(); st.pop();
+            int pse = st.isEmpty() ? -1 : st.peek();
+            maxArea = Math.max(maxArea, heights[element] * (nse - pse -1));
+        }
+
+        return maxArea;
+    }
 }
