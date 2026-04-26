@@ -23,6 +23,35 @@ class StockSpanner{
     }
 }
 
+
+class Pair{
+    int value;
+    int index;
+
+    public Pair(int value, int index){
+        this.value = value;
+        this.index = index;
+    }
+}
+
+class StockSpannerOptimized {
+    int index = -1;
+    Stack<Pair> st;
+    public StockSpannerOptimized() {
+        index = -1;
+        st = new Stack<>();
+    }
+
+    public int next(int price) {
+        index = index+1;
+
+        while(!st.isEmpty() && st.peek().value <= price) st.pop();
+        int span = index - (st.isEmpty() ? -1 : st.peek().index);
+        st.push(new Pair(price, index));
+        return span;
+    }
+}
+
 //https://leetcode.com/problems/online-stock-span/description/
 public class P015_LC901_OnlineStockSpan {
     public static void main(String[] args){
