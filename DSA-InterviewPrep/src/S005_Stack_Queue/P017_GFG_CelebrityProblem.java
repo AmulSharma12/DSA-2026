@@ -30,4 +30,36 @@ public class P017_GFG_CelebrityProblem {
 
         return -1;
     }
+
+    //Approach 2 - elimination pattern
+    //If A knows B - A can't be celebrity
+    //IF A don't know B - B can't be celebrity
+    public static int celebrityOptimized(int mat[][]) {
+        int n = mat.length;
+        int top = 0;
+        int down = n-1;
+
+        while(top < down){
+            if(mat[top][down] == 1)
+                top++;
+            else if(mat[down][top] == 1)
+                down--;
+            else{
+                top++;
+                down--;
+            }
+        }
+
+        if(top > down)  return -1;
+
+        for(int ind = 0; ind <n; ind++){
+            if(ind == top)  continue;
+
+            if(mat[top][ind] == 0 && mat[ind][top] == 1){}
+            else return -1;
+        }
+
+        return top;
+
+    }
 }
