@@ -15,4 +15,36 @@ public class P004_LC33_SearchRotatedSortedArray {
 
         return -1;
     }
+
+    //Approach 2 - using binary search approach
+    public static int searchBinarySearch(int[] nums, int target) {
+        int n = nums.length;
+
+        int low = 0;
+        int high = n-1;
+
+        while(low <= high){
+            int mid = (low + high)/2;
+            if(nums[mid] == target)     return mid;
+
+            //left sorted confirmed
+            if(nums[low] <= nums[mid]){
+                //left part sorted
+                if(nums[low] <= target && target <= nums[mid])
+                    high = mid - 1;
+                else
+                    low = mid + 1;
+            }
+            else{
+                //right part sorted
+
+                if(nums[mid] <= target && target <= nums[high])
+                    low = mid + 1;
+                else
+                    high = mid - 1;
+            }
+        }
+
+        return -1;
+    }
 }
