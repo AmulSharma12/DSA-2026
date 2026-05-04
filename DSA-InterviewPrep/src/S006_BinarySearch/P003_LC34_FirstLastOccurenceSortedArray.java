@@ -23,4 +23,43 @@ public class P003_LC34_FirstLastOccurenceSortedArray {
 
         return new int[] {first, last};
     }
+
+
+    //Approach 2 - using binary search
+    public static int[] searchRangeBinarySearch(int[] nums, int target) {
+        int n = nums.length;
+        int firstOccurence = findFirstOccurence(nums, target, n);
+        int lastOccurence = findLastOccurence(nums,target, n);
+        return new int[] {firstOccurence, lastOccurence};
+    }
+
+    private static int findFirstOccurence(int[] nums, int target, int n){
+        int low = 0;
+        int high = n-1;
+
+        while(low <= high){
+            int mid = (low + high)/2;
+
+            if(nums[mid] >= target)     high = mid - 1;
+            else low = mid + 1;
+        }
+
+
+        if(low < n && nums[low] == target)  return low;
+        return -1;
+    }
+
+    private static int findLastOccurence(int[] nums, int target, int n){
+        int low = 0;
+        int high = n-1;
+
+        while(low <= high){
+            int mid = (low + high)/2;
+            if(nums[mid] <= target)  low = mid + 1;
+            else high = mid - 1;
+        }
+
+        if(high >= 0 && nums[high] == target)    return high;
+        return -1;
+    }
 }
