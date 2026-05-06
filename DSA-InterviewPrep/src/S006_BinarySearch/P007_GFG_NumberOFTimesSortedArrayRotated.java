@@ -1,7 +1,8 @@
 package S006_BinarySearch;
 //Question 7 - provided a sorted rotated array how many number of times
+//https://www.geeksforgeeks.org/problems/rotation4723/1
 
-public class P007_NumberOFTimesSortedArrayRotated {
+public class P007_GFG_NumberOFTimesSortedArrayRotated {
     public static void main(String[] args){
         //call from here...
         int[] nums = new int[] {3,4,5,6,1,2};
