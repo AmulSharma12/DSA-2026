@@ -16,4 +16,16 @@ public class P008_LC540_SingleElementInSortedArray {
 
         return nums[0];
     }
+
+
+    //Approach 2 - using xor approach to cancel out duplicates and only element remaining is the that appear once.
+    public static int singleNonDuplicateUsingXOR(int[] nums) {
+        int n = nums.length;
+        int xor = 0;
+        for(int ind = 0; ind < n; ind++){
+            xor = xor ^ nums[ind];
+        }
+
+        return xor;
+    }
 }
