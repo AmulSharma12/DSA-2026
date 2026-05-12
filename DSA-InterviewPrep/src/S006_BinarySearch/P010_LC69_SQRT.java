@@ -17,4 +17,25 @@ public class P010_LC69_SQRT {
 
         return -1;
     }
+
+
+    //Approach 2 - using binary search approach
+    public int mySqrt(int x) {
+        if(x == 0)  return 0;
+
+        int low = 1;
+        int high = x;
+        int ans = 1;
+        while(low <= high){
+            int mid = low + (high-low)/2;
+            if((long)mid * mid == x)  return mid;
+            else if((long)mid * mid > x)  high = mid - 1;
+            else{
+                ans = mid;
+                low = mid + 1;
+            }
+        }
+
+        return ans;
+    }
 }
