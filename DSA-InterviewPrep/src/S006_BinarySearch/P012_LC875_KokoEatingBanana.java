@@ -37,4 +37,33 @@ public class P012_LC875_KokoEatingBanana {
 
         return true;
     }
+
+    //Approach 2 - using binary search approach
+    public static int minEatingSpeedUsingBinaryApproach(int[] piles, int h) {
+        int n = piles.length;
+        int maxi = Integer.MIN_VALUE;
+
+        for(int ind = 0; ind < n; ind++){
+            maxi = Math.max(maxi, piles[ind]);
+        }
+
+        int low = 1;
+        int high = maxi;
+        int ans = 1;
+        while(low <= high){
+            int eatPerHour = low + (high-low)/2;
+            if(isEatableInHHours(eatPerHour, piles, h)){
+                ans = eatPerHour;
+                high = eatPerHour - 1;
+            }else{
+                low = eatPerHour + 1;   //as i have exceed the limit of h hour and this can't be my ans so anything greater than that
+            }
+        }
+
+
+        return ans;
+    }
+
+
+
 }
