@@ -50,4 +50,35 @@ public class P013_LC1482_MinDaysToMakeBoquet {
         if(numberOfBoquet >= m) return true;
         return false;
     }
+
+
+    //Approach 2- using binary search way
+    public int minDaysUsingBinarySearchWay(int[] bloomDay, int m, int k) {
+        int n = bloomDay.length;
+
+        //if exceed more than number of the flowers
+        if((long)m*k > n)   return  -1;
+
+        int minValue = Integer.MAX_VALUE;
+        int maxValue = Integer.MIN_VALUE;
+
+        for(int ind = 0; ind < n; ind++){
+            minValue = Math.min(minValue, bloomDay[ind]);
+            maxValue = Math.max(maxValue, bloomDay[ind]);
+        }
+
+
+        int low = minValue;
+        int high = maxValue;
+        while(low <= high){
+            int potentialDay = low + (high - low)/2;
+
+            if(isPossibleToMakeBoquet(potentialDay, bloomDay, m, k, n))
+                high = potentialDay -1;
+            else
+                low = potentialDay + 1;
+        }
+
+        return low;
+    }
 }
