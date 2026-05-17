@@ -38,4 +38,26 @@ public class P015_LC1011_ShipPackageWithinDDays {
 
         return true;
     }
+
+    //Approach 2 - using binary search approach
+    public static int shipWithinDaysUsingBinarySearch(int[] weights, int days) {
+        int n = weights.length;
+        int maxCapacity = 0;
+        int maxWeight = Integer.MIN_VALUE;
+        for(int ind = 0; ind < n; ind++){
+            maxWeight = Math.max(maxWeight, weights[ind]);
+            maxCapacity += weights[ind];
+        }
+
+        int low = maxWeight;
+        int high = maxCapacity;
+        while(low <= high){
+            int potentialCapacity = low + (high-low)/2;
+            if(isPossibleToShip(weights, potentialCapacity, days, n))
+                high = potentialCapacity - 1;
+            else
+                low = potentialCapacity +  1;
+        }
+        return low;
+    }
 }
