@@ -34,4 +34,28 @@ public class P014_LC1283_SmallestDivisionInThreshold {
 
         return true;
     }
+
+
+    //Approach 2 - using binary search approach
+    public static int smallestDivisorUsingBinarySearchApproach(int[] nums, int threshold) {
+        int n = nums.length;
+        int maxValue = Integer.MIN_VALUE;
+
+        for(int ind = 0; ind < n; ind++){
+            maxValue = Math.max(maxValue, nums[ind]);
+        }
+
+        int low = 1;
+        int high = maxValue;
+
+        while(low <= high){
+            int potentialDivisor = low + (high-low)/2;
+            if(isPossible(nums, potentialDivisor, threshold))
+                high = potentialDivisor -1;
+            else
+                low = potentialDivisor + 1;
+        }
+
+        return low;
+    }
 }
