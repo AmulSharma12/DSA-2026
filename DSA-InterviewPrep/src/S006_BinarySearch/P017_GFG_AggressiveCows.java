@@ -44,4 +44,26 @@ public class P017_GFG_AggressiveCows {
 
         return false;
     }
+
+    //Approach 2 - using binary search approach
+    public static int aggressiveCowsUsingBinarySearchApproach(int[] stalls, int k) {
+        Arrays.sort(stalls);
+        int minDistance = 1;
+        int n = stalls.length;
+        int maxDistance = stalls[n-1] - stalls[0];
+
+
+        while(minDistance <= maxDistance){
+            int potentialAns = minDistance + (maxDistance-minDistance)/2;
+
+            if(isPossible(stalls, potentialAns, k)){
+                minDistance = potentialAns + 1;
+            }else{
+                maxDistance = potentialAns - 1;
+            }
+        }
+
+        return maxDistance;
+
+    }
 }
