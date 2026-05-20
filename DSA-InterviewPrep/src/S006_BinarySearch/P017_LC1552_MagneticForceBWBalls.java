@@ -40,4 +40,23 @@ public class P017_LC1552_MagneticForceBWBalls {
         }
         return false;
     }
+
+
+    //Approach 2 - using binary search approach
+    public static int maxDistanceUsingBinarySearch(int[] position, int m) {
+        Arrays.sort(position);
+        int n = position.length;
+        int minForce = 1;
+        int maxForce = position[n-1] - position[0];
+
+        while(minForce <= maxForce){
+            int potentialForce = minForce + (maxForce - minForce)/2;
+            if(canPlace(potentialForce, position, m))
+                minForce = potentialForce + 1;
+            else
+                maxForce = potentialForce - 1;
+        }
+
+        return maxForce;
+    }
 }
