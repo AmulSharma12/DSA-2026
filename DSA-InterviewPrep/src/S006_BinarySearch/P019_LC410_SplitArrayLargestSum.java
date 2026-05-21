@@ -43,4 +43,35 @@ public class P019_LC410_SplitArrayLargestSum {
 
         return split <= k;
     }
+
+
+    //Approach 2 - using binary search approach
+    public static int splitArrayUsingBinarySearchApproach(int[] nums, int k) {
+        int n = nums.length;
+
+        if(k > n)   return -1;
+
+        int max = Integer.MIN_VALUE;
+        int totalSum = 0;
+
+        for(int ind = 0; ind < n; ind++){
+            max = Math.max(max, nums[ind]);
+            totalSum+=nums[ind];
+        }
+
+
+        int low = max;
+        int high = totalSum;
+
+        while(low <= high){
+            int potentialLargestSum = low + (high - low)/2;
+            if(isPossibleToSplit(nums, n, potentialLargestSum, k))
+                high = potentialLargestSum - 1;
+            else
+                low = potentialLargestSum + 1;
+        }
+
+        return low; //lesser than low are just not possible
+
+    }
 }
