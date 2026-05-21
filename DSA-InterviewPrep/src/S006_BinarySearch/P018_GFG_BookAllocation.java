@@ -45,4 +45,32 @@ public class P018_GFG_BookAllocation {
         return student <= k;
     }
 
+
+    //Approach 2 - using binary search approach
+    public static int findPagesUsingBinarySearchApproach(int[] arr, int k) {
+        int n = arr.length;
+        if(k > n)   return -1;      // when number of students > number of books because atleast one book should be allocated to each student and its not possible in that case
+
+
+        int maxPage = Integer.MIN_VALUE;
+        int totalSum = 0;
+
+        for(int ind = 0; ind < n; ind++){
+            maxPage = Math.max(maxPage, arr[ind]);
+            totalSum += arr[ind];
+        }
+
+        int low = maxPage;
+        int high = totalSum;
+
+        while(low <= high){
+            int pages = low + (high-low)/2;
+            if(isPossibleToAllocate(arr, n, pages, k))  high = pages - 1;
+            else low = pages + 1;
+        }
+
+        return low;
+
+    }
+
 }
