@@ -40,4 +40,28 @@ public class P019_GFG_PainterPartition {
 
         return painter <= painterCount;
     }
+
+
+    //Approach 2 - using binary search approach
+    public static int minTimeUsingBinarySearchApproach(int[] arr, int k) {
+        int minTime = Integer.MIN_VALUE;
+        int maxTime = 0;
+        int n = arr.length;
+
+        for(int ind = 0; ind < n; ind++){
+            minTime = Math.max(minTime, arr[ind]);
+            maxTime += arr[ind];
+        }
+
+        while(minTime <= maxTime){
+            int potentialTime = minTime + (maxTime - minTime)/2;
+            if(isPossibleToPaintBoard(arr, potentialTime, k))
+                maxTime = potentialTime - 1;
+            else
+                minTime = potentialTime + 1;
+        }
+
+
+        return minTime;
+    }
 }
