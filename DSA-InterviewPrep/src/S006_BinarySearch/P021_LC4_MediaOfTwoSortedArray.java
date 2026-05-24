@@ -62,4 +62,54 @@ public class P021_LC4_MediaOfTwoSortedArray {
         return (double) (nums[mid]+nums[mid-1])/2;      //even length
 
     }
+
+
+    //Approach 3 - optimising space for merge sort solution.
+    public double findMedianSortedArraysSpaceOptimizationMergeSort(int[] nums1, int[] nums2) {
+        int m = nums1.length;
+        int n = nums2.length;
+        int totalLength = m + n;
+        int expectedMid = totalLength/2;
+        int expectedPrevMid = expectedMid - 1;
+        int currentPos = 0;
+        int ind1 = 0;
+        int ind2 = 0;
+        int mid = -1; int prevMid = -1;
+
+        while(ind1 < m && ind2 < n){
+            if(nums1[ind1] < nums2[ind2]){
+                //nums1 and ind1 are lesser
+                if(currentPos == expectedMid)   mid = nums1[ind1];
+                if(currentPos == expectedPrevMid)   prevMid = nums1[ind1];
+                ind1++;
+                currentPos++;
+            }else{
+                //nums2 and ind2 are lesser
+                if(currentPos == expectedMid) mid = nums2[ind2];
+                if(currentPos == expectedPrevMid) prevMid = nums2[ind2];
+                ind2++;
+                currentPos++;
+            }
+        }
+
+        //fetching out remaining elements if left out
+        while(ind1 < m){
+            if(currentPos == expectedMid) mid = nums1[ind1++];
+            if(currentPos == expectedPrevMid) prevMid = nums1[ind1++];
+            else ind1++;
+            currentPos++;
+        }
+
+        while(ind2 < n){
+            if(currentPos == expectedMid) mid = nums2[ind2++];
+            if(currentPos == expectedPrevMid) prevMid = nums2[ind2++];
+            else ind2++;
+            currentPos++;
+        }
+
+        if(totalLength%2 != 0)  return mid;
+
+        return (double) (mid + prevMid)/2;
+
+    }
 }
