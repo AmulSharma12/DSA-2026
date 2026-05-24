@@ -33,4 +33,33 @@ public class P021_LC4_MediaOfTwoSortedArray {
         return (double) (nums[mid]+nums[mid-1])/2;
 
     }
+
+    //Approach 1 - using merge sort approach
+    public static double findMedianSortedArraysUsingMergeSortApproach(int[] nums1, int[] nums2) {
+        int m = nums1.length;
+        int n = nums2.length;
+
+        int x = m + n;
+        int[] nums = new int[x];
+        int currInd = 0;
+
+        int ind1 = 0;
+        int ind2 = 0;
+        while(ind1 < m && ind2 < n){
+            if(nums1[ind1]  < nums2[ind2])
+                nums[currInd++] = nums1[ind1++];
+            else
+                nums[currInd++] = nums2[ind2++];
+        }
+
+        while(ind1 < m) nums[currInd++] = nums1[ind1++];
+        while(ind2 < n) nums[currInd++] = nums2[ind2++];
+
+        if(x == 1)  return (double)nums[0];
+        if(x%2 != 0)    return (double) nums[x/2];      //odd length
+
+        int mid = x/2;
+        return (double) (nums[mid]+nums[mid-1])/2;      //even length
+
+    }
 }
