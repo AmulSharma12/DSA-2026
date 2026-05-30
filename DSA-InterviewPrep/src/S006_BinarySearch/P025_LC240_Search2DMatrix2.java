@@ -39,4 +39,25 @@ public class P025_LC240_Search2DMatrix2 {
 
         return false;
     }
+
+
+    //Approach 3 - using binary search approach
+    public static boolean searchMatrixUsingBinarySearchApproach(int[][] matrix, int target) {
+        int m = matrix.length;
+        int n = matrix[0].length;
+
+        //top right based on that will eliminate either row or either column
+        int row = 0;
+        int col = n-1;
+
+        while(row < m && col >= 0){
+            int currElement = matrix[row][col];
+            if(currElement == target)   return true;
+            else if(target > currElement)  row++;
+            else col--;
+        }
+
+
+        return false;
+    }
 }
