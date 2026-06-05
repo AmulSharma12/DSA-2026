@@ -1,28 +1,17 @@
 package S007_Tree;
-
-class Node{
-    int data;
-    Node left;
-    Node right;
-
-    public Node(int value){
-        this.data = value;
-    }
-}
-
-
-public class P002_PreOrderUsingRecursion{
+//https://leetcode.com/problems/binary-tree-inorder-traversal/
+public class P003_LC95_InOrderUsingRecursion {
     public static void main(String[] args){
         Node rootNode = constrcutTree();
-        preOrder(rootNode);
+        inOrderTraversal(rootNode);
     }
 
-    private static void preOrder(Node rootNode){
+    private static void inOrderTraversal(Node rootNode){
         if(rootNode == null)    return;
-        System.out.print(rootNode.data + " ");
 
-        preOrder(rootNode.left);
-        preOrder(rootNode.right);
+        inOrderTraversal(rootNode.left);
+        System.out.print(rootNode.data + " ");
+        inOrderTraversal(rootNode.right);
     }
 
     private static Node constrcutTree(){
