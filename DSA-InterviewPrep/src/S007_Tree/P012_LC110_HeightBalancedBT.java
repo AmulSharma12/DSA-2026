@@ -5,7 +5,33 @@ public class P012_LC110_HeightBalancedBT {
         // call from here...
     }
 
-    //Approach 1- using depth of binary tree
+    //Approach 1- Brute force approach
+    public boolean isBalancedBrute(TreeNode root) {
+        if(root == null)    return true;
+
+        int leftHeight = findHeight(root.left);
+        int rightHeight = findHeight(root.right);
+
+        if(Math.abs(leftHeight - rightHeight) > 1)  return false;
+        boolean leftCall = isBalancedBrute(root.left);
+        boolean rightCall = isBalancedBrute(root.right);
+
+        if(!leftCall || !rightCall) return false;
+        return true;
+
+    }
+
+    private int findHeight(TreeNode root){
+        if(root == null)    return 0;
+
+        int leftHeight = findHeight(root.left);
+        int rightHeight = findHeight(root.right);
+
+        return 1 + Math.max(leftHeight, rightHeight);
+    }
+
+
+    //Approach 2 - using depth of binary tree
     public boolean isBalanced(TreeNode root) {
         return checkHeightBalanced(root) != -1;
     }
