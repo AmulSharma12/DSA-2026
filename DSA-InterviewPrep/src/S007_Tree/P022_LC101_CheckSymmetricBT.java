@@ -34,4 +34,19 @@ public class P022_LC101_CheckSymmetricBT {
         invertTree(node.left);
         invertTree(node.right);
     }
+
+
+    //Approach 2 - checking both left/right subtree based on pre-order and reverse pre-order
+    public static boolean isSymmetricOptimization(TreeNode root) {
+        return checkSymmetry(root.left, root.right);
+    }
+
+    private static boolean checkSymmetry(TreeNode node1, TreeNode node2){
+        if(node1 == null && node2 == null)  return true;
+        if(node1 == null || node2 == null)  return false;
+        if(node1.val != node2.val)  return false;
+
+        return checkSymmetry(node1.left, node2.right) &&
+                checkSymmetry(node1.right, node2.left);
+    }
 }
