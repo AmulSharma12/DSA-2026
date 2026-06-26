@@ -73,4 +73,18 @@ public class P024_LC236_LCA_BT {
 
         return false;
     }
+
+
+    //Approach 2 - using optimization technique
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if(root == null)    return root;
+        if(root == p || root == q)  return root;
+
+        TreeNode left = lowestCommonAncestor(root.left, p, q);
+        TreeNode right = lowestCommonAncestor(root.right, p , q);
+
+        if(left != null && right != null)   return root;
+
+        return left == null ? right : left;
+    }
 }
